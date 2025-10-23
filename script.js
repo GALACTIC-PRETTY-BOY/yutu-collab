@@ -4,7 +4,7 @@ async function analyze() {
   output.innerHTML = "Analyzing...";
 
   try {
-    const response = await fetch("YOUR_NGROK_URL/predict", {
+    const response = await fetch("https://connivingly-gravelly-mariko.ngrok-free.dev/predict", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ video_id: videoId })
@@ -21,3 +21,4 @@ async function analyze() {
     output.innerHTML = "Error connecting to backend.";
   }
 }
+
