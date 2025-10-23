@@ -1,0 +1,10 @@
+flask
+flask-cors
+tensorflow
+keras
+google-api-python-client
+nltk
+pyngrok
+pandas
+numpy
+keras-preprocessing
