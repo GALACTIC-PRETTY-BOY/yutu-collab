@@ -2,31 +2,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const analyzeBtn = document.getElementById("analyzeBtn");
     const resultsDiv = document.getElementById("results");
 
-    // Replace this with your actual ngrok URL
-    const API_URL = "https://connivingly-gravelly-mariko.ngrok-free.dev/predict";
+    // Replace with your actual ngrok URL or local URL
+    const API_URL = "http://127.0.0.1:5000/analyze_comments";
 
-    async function analyzeVideo() {
-        const videoIdInput = document.getElementById("videoId").value.trim();
-
-        if (!videoIdInput) {
-            alert("Please enter a video ID or URL");
+    async function analyzeComments() {
+        const commentsInput = document.getElementById("comments").value.trim();
+        if (!commentsInput) {
+            alert("Please enter comments to analyze.");
             return;
         }
 
-        // Extract ID if user pastes full URL
-        let videoId = videoIdInput;
-        if (videoId.includes("youtube.com/watch?v=")) {
-            const url = new URL(videoIdInput);
-            videoId = url.searchParams.get("v");
-        }
+        // Split comments by new line
+        const comments = commentsInput.split("\n").filter(c => c.trim() !== "");
 
-        resultsDiv.innerHTML = "Fetching and analyzing comments...";
+        resultsDiv.innerHTML = "Analyzing comments...";
 
         try {
             const response = await fetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ video_id: videoId })
+                body: JSON.stringify({ comments })
             });
 
             if (!response.ok) throw new Error("Network response was not ok");
@@ -54,12 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (err) {
             console.error(err);
-            resultsDiv.innerHTML = "Error connecting to backend. Make sure ngrok and Flask are running.";
+            resultsDiv.innerHTML = "Error connecting to backend. Make sure Flask is running.";
         }
     }
 
-    analyzeBtn.addEventListener("click", analyzeVideo);
+    analyzeBtn.addEventListener("click", analyzeComments);
 });
+
+
 
 
 
